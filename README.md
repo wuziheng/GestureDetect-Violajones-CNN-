@@ -21,8 +21,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hearta![hearta](example/heart_a.jpg )   &nbsp;&nbsp; heartb![heartb](example/heart_b.jpg)   &nbsp;&nbsp; greet![greet](example/greet.jpg)  &nbsp;&nbsp;six![six](example/six.jpg)   &nbsp;&nbsp;thumb![thumb](example/thumb.jpg)
 
 - 检测速度
-实际测试中：最快检测速度3ms/perframe，基本不出现误检测，但鲁棒性欠佳。
-由于比赛已经规定好了采集显示都采用opencv，所以基本帧率最大60fps，即使放慢算法到7~10ms/perframe,也依然过可以获得接近50fps
+实际测试中：最快检测速度3ms/perframe，基本不出现误检测，但检出欠佳。
+实际在帧率上，由于已经限定了采用opencv的采集和显示接口，而测试看来cv cap耗时大概在15ms到20ms，之间所以基本达到极限帧率了，如果想要在实际中优化，则需要提升采集的速度。
 
  
 
