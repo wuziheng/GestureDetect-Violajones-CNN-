@@ -27,25 +27,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;其中摄像头负责采集并做ISP等功能的时间由摄像头规格决定（包括曝光时间，处理速度等等）,DMA时间由带宽决定,而由cpu拷贝至算法指定的buffer的时间由Opencv算法的实现和cpu性能决定。上述这一部分在比赛中限定使用cv::VideoCapture() >> img 实现。
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;实际上笔者关闭了整个算法循环的内容，可以测出cv::VideoCapture>>img的速度约为25fps,即该摄像头规格为480p25.实际在使用中，如果算法while循环一次的时间小于40ms，则需要继续等待下一帧img通过memcpy传输过来。当然笔者也进行了测试，在该平台上cv::imshow()一帧480p的图像平均时间在10~13ms之间。在这个情况下，会显示cap>>img的时间约为（40-13）=27ms左右。当然笔者进一步的测试总结如下表格：
 
-<table width="85%" border="2" cellspacing="2" cellpadding="4" bgcolor="#CC99FF" bordercolor="#0000FF" align="center" >
-<tr>
-<td style="text-align:center">&nbsp;</td>
-<td style="text-align:center">ISP+Capture</td>
-<td style="text-align:center">memcpy</td>
-<td style="text-align:center">cv::imshow</td>
-<td style="text-align:center">inference</td>
-</tr>
-<tr>
-<td style="text-align:center">time</td>
-<td style="text-align:center">40ms</td>
-<td style="text-align:center">12ms(uncertain)</td>
-<td style="text-align:center">10~13ms</td>
-<td style="text-align:center">3~5ms</td>
-</tr>
-</table>
-
 | | ISP+Capture  | memcpy |cv::imshow|inference|
-| ------------- |:-------------:| -----:|-------------:|-------------:|
+| ------------- |-------------| --------|----------|-------------|
 | time     | 40ms| 12ms(uncertain) |10~13ms| 3~5ms|
 
 
