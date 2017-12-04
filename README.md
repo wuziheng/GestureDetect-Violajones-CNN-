@@ -28,13 +28,13 @@
 其中摄像头负责采集并做ISP等功能的时间由摄像头规格决定（包括曝光时间，处理速度等等）,DMA时间由带宽决定,而由cpu拷贝至算法指定的buffer的时间由Opencv算法的实现和cpu性能决定。上述这一部分在比赛中限定使用cv::VideoCapture() >> img 实现。实际上笔者关闭了整个算法循环的内容，可以测出cv::VideoCapture>>img的速度约为25fps,即该摄像头规格为480p25.实际在使用中，如果算法while循环一次的时间小于40ms，则需要继续等待下一帧img通过memcpy传输过来。当然笔者也进行了测试，在该平台上cv::imshow()一帧480p的图像平均时间在10~13ms之间。在这个情况下，会显示cap>>img的时间约为（40-13）=27ms左右。当然笔者进一步的测试总结如下表格：
 
 </br>
-<center>
+<div align=center> 
 
-| 主要| ISP+Capture  | memcpy |cv::imshow|inference|
+| 主要流程| ISP+Capture  | memcpy |cv::imshow|inference|
 | ------------- |-------------| --------|----------|-------------|
 | time     | 40ms| 12ms(uncertain) |10~13ms| 3~5ms|
 
-</center>
+</div>
 </br>
 
 到这里我们也就理清了cv::VideoCapture的工作原理（应该是算法线程会去开辟一个新的现成去完成左边框内的工作）。而算法线程每一帧图像在副线程完成DMA之后，就会拷贝给算法开辟的buffer中去，这个间隔是40ms。也就是说如果memcpy+inference+cv::imshow()的时间小于40ms，这个时候在算法线程就会挂起等待DMA结束。
@@ -44,43 +44,49 @@
 有了上面的讨论，这里我们就可以进入对检测算法的性能测评（以下对应每个手势的时间代表的是这个算法检出为某个手势的时间，是包括定位和分类一起的时间。而不是单独测试某一个分类器的时间）：
 
 </br>
-<center>
 
 **（比赛版本 frame_control = 3 / use_cnn = 0）**
 </br>
+<div align=center> 
 
 |distance=1~1.5m | no target (pre_process)| 1-hearta|1-heartb|1-greet|1-six|1-thumb|
 | ------------- |-------------| --------|----------|----------|----------|----------|
 | time     | 0.7ms| 2.5ms |3.5ms| 2.5ms| 4.9ms|2.2ms| 
 
+</div>
 </br>
 
 **（比赛版本 Muti-Gestures Test）**
 </br>
+<div align=center> 
 
 |distance=1~1.5m | 2-hearta| 2-heartb|2-greet|2-six|2-thumb|muti-six`s|
 | ------------- |-------------| --------|----------|----------|----------|----------|
 | time     | 4.2ms| 8.1ms |3.8ms| 6.8ms| 4.0ms|10.3ms| 
 
+</div>
 </br>
 
 **（全局版本 frame_control = 1 / use_cnn = 0）**
 </br>
+<div align=center> 
 
 |distance=1~1.5m | no target (pre_process) | hearta|heartb|greet|six|thumb|
 | ------------- |-------------| --------|----------|----------|----------|----------|
 | time     | 2.0ms| 3.3ms |4.8ms| 2.8ms| 6.0ms|3.5ms| 
 
+</div>
 </br>
 
 **（全局版本 Muti-Gestures Test）**
 </br>
+<div align=center> 
 
 |distance=1~1.5m | 2-hearta| 2-heartb|2-greet|2-six|2-thumb|muti-six`s|
 | ------------ |-------------| --------|----------|----------|----------|----------|
 | time     | 8.3ms| 14.4ms |3.3ms| 6.0ms| 4.1ms|10.5ms| 
 
-</center>
+</div>
 </br>
 
 
