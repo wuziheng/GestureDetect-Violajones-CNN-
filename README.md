@@ -12,8 +12,6 @@
 - CaffeOnACL/Caffe/Caffe2
 - gflags
 
-</br>
-
 
 ### 性能描述
 #
@@ -28,7 +26,7 @@
 
 </br>
 
-**（比赛版本 frame_control = 3 / use_cnn = 0）**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**（比赛版本 frame_control = 3 / use_cnn = 0）**
 </br>
 <div align=center> 
 
@@ -39,7 +37,7 @@
 </div>
 </br>
 
-**（比赛版本 Muti-Gestures Test）**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**（比赛版本 Muti-Gestures Test）**
 </br>
 <div align=center> 
 
@@ -50,7 +48,7 @@
 </div>
 </br>
 
-**（全局版本 frame_control = 1 / use_cnn = 0）**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**（全局版本 frame_control = 1 / use_cnn = 0）**
 </br>
 <div align=center> 
 
@@ -61,7 +59,7 @@
 </div>
 </br>
 
-**（全局版本 Muti-Gestures Test）**
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**（全局版本 Muti-Gestures Test）**
 </br>
 <div align=center> 
 
@@ -71,6 +69,9 @@
 
 </div>
 </br>
+
+### CascadeClassifier训练
+可以参考我放出来的指南[train](https://github.com/wuziheng/GestureDetect-Violajones-CNN-/tree/master/train)，复现我训练的分类器的结果。
 
 
 欢迎留言或者邮件交流694790961@qq.com
