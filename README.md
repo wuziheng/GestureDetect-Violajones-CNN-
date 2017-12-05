@@ -1,11 +1,12 @@
 # GestureDetect Based On OpenCV & Caffe
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项目是基于作者参加ARM在浙江大学举办的嵌入式算法大赛的赛题C手势识别整理而来。整套算法基于OpenCV和CaffeOnAcl实现,平台在ARM公司的Firefly3399（2×A72+4×A53）上定制的ubuntu16.04.比赛目标是在480p(640x480)的视频图像中最快检测出自定义的五种及以上的目标手势并准确分类。
+[![GitHub license](http://dmlc.github.io/img/apache2.svg)](./LICENSE)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;该项目是基于作者参加ARM在浙江大学举办的嵌入式算法大赛的赛题C手势识别整理而来。整套算法基于OpenCV和CaffeOnAcl实现,平台在ARM公司的[Rockchip RK3399](http://www.rock-chips.com/plus/3399.html)上定制的ubuntu16.04.比赛目标是在480p(640x480)的视频图像中最快检测出自定义的五种及以上的目标手势并准确分类。
  
 
 
 ### 环境需求
 #
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;考虑到很多方面的原因，算法并没有做特别低层的优化，所以可移植性还是较高的。ubuntu系统下只要配置好以下的库，修改Makefile即可，并不限定平台。但如果你也是基于Firefly3399平台的用户，推荐参考如下链接&nbsp;[OAID/CaffeOnACL](https://github.com/OAID/CaffeOnACL/blob/master/acl_openailab/installation.md)&nbsp;安装opencv/caffe等其他依赖
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;考虑到很多方面的原因，算法并没有做特别低层的优化，所以可移植性还是较高的。ubuntu系统下只要配置好以下的库，修改Makefile即可，并不限定平台。但如果你也是基于[Rockchip RK3399](http://www.rock-chips.com/plus/3399.html)平台的用户，推荐参考如下链接&nbsp;[OAID/CaffeOnACL](https://github.com/OAID/CaffeOnACL/blob/master/acl_openailab/installation.md)&nbsp;安装opencv/caffe等其他依赖
 
 - opencv-3.3.0
 - CaffeOnACL/Caffe/Caffe2
@@ -103,6 +104,7 @@
 - 4.对比结果发现，在预处理的时间上，比赛版有优势，但是在Viola-jones的时间上，全局版有优势。随着每一帧画面中手势数量的增多，Viola-jones的时间几乎是线性增加的，而预处理时间几乎不会变化，所以说在Muti-Gesture的应用场景里，我们推荐 frame_control=1,2，而在确定只有Single-Gesture的场景中，选择  frame_control=3。比赛情况为后者。
 - 5.全局版会出现少量的误检,而比赛版则不会,因为 frame_control 还控制了算法逻辑框架的其他部分可以消除大部分误检测。这也是选择比赛版的原因之一。
 - 6.算法还保留了利用 CNN 对检出的手势框进行再确认的接口，本意是用来提高precision，但是后期笔者解决了 precision 的问题，并且 CNN 较慢而且 recall 很低，会导致检出的手势也会被误判为背景，所以在比赛版本里关闭了 CNN 测试的接口。CNN在板子上的性能大约为10ms一个候选框。
+－７关于核心使用的问题，程序是默认使用６个核心，笔者的测试结果也表示默认是最快的，可能会有不同的结果。
 
 欢迎留言或者邮件交流694790961@qq.com
 
